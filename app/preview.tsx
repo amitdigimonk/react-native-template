@@ -1,0 +1,145 @@
+import CustomText from '@/components/CustomText';
+import { commonStyles } from '@/constants/commonStyles';
+import { ImageData, useFetchImages } from '@/hooks/useFetchImages';
+import { useTheme } from '@/hooks/useTheme';
+import { Ionicons } from '@expo/vector-icons';
+import { FlashList } from "@shopify/flash-list";
+import { Image } from 'expo-image';
+import { useRouter } from 'expo-router';
+import { useState } from 'react';
+import { ActivityIndicator, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
+
+const FILTERS = ['All', 'Minimal', 'Abstract', 'Nature', 'Urban', 'Dark'];
+
+export default function PreviewScreen() {
+    const router = useRouter();
+    const { data, isLoading, error } = useFetchImages();
+    const { colors } = useTheme();
+    const [activeFilter, setActiveFilter] = useState('All');
+
+    const renderItem = ({ item, index }: { item: ImageData; index: number }) => {
+        const staggeredHeight = index % 2 === 0 ? 220 : 300;
+
+        return (
+            <TouchableOpacity
+                activeOpacity={0.9}
+                onPress={() => router.push({ pathname: '/image-viewer', params: { url: item.url } })}
+            >
+                <View style={[styles.imageCard, { backgroundColor: colors.card }]}>
+                    <Image
+                        source={{ uri: item.url }}
+                        style={[styles.image, { height: staggeredHeight, backgroundColor: colors.border }]}
+                        contentFit="cover"
+                        transition={300}
+                        cachePolicy="disk"
+                    />
+                </View>
+            </TouchableOpacity>
+        );
+    };
+
+    return (
+        <View style={[commonStyles.screenContainer, { backgroundColor: colors.background }]}>
+
+            <View style={styles.headerContainer}>
+                <TouchableOpacity style={styles.backBtn} onPress={() => router.back()}>
+                    <Ionicons name="chevron-back" size={24} color={colors.text} />
+                </TouchableOpacity>
+                <CustomText variant="heading" style={{ fontSize: 22 }}>Explore</CustomText>
+            </View>
+
+
+            <View style={{ height: 60 }}>
+                <ScrollView
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                    contentContainerStyle={styles.filterScroll}
+                >
+                    {FILTERS.map((filter) => {
+                        const isActive = activeFilter === filter;
+                        return (
+                            <TouchableOpacity
+                                key={filter}
+                                style={[
+                                    styles.filterPill,
+                                    { backgroundColor: isActive ? colors.text : 'transparent' }
+                                ]}
+                                onPress={() => setActiveFilter(filter)}
+                            >
+                                <CustomText
+                                    variant="body"
+                                    color={isActive ? colors.background : colors.textMuted}
+                                    style={{ fontWeight: isActive ? 'bold' : 'normal' }}
+                                >
+                                    {filter}
+                                </CustomText>
+                            </TouchableOpacity>
+                        );
+                    })}
+                </ScrollView>
+            </View>
+
+            {isLoading ? (
+                <View style={[commonStyles.screenContainer, commonStyles.centerAlign]}>
+                    <ActivityIndicator size="large" color={colors.primary} />
+                </View>
+            ) : error ? (
+                <View style={[commonStyles.screenContainer, commonStyles.centerAlign]}>
+                    <CustomText color="#EF4444">{error}</CustomText>
+                </View>
+            ) : (
+                <View style={{ flex: 1 }}>
+                    <FlashList
+                        data={data}
+                        masonry
+                        numColumns={2}
+                        keyExtractor={(item) => item.id}
+                        renderItem={renderItem}
+                        contentContainerStyle={styles.listContainer}
+                        showsVerticalScrollIndicator={false}
+                    />
+                </View>
+            )}
+        </View>
+    );
+}
+
+const styles = StyleSheet.create({
+    headerContainer: {
+        paddingTop: 60,
+        paddingBottom: 10,
+        paddingHorizontal: 20,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    backBtn: {
+        position: 'absolute',
+        left: 20,
+        bottom: 12,
+        zIndex: 1,
+        padding: 5,
+    },
+    filterScroll: {
+        paddingHorizontal: 15,
+        alignItems: 'center',
+    },
+    filterPill: {
+        paddingHorizontal: 20,
+        paddingVertical: 8,
+        borderRadius: 20,
+        marginHorizontal: 5,
+    },
+    listContainer: {
+        padding: 10,
+        paddingBottom: 40,
+    },
+    imageCard: {
+        borderRadius: 16,
+        margin: 6,
+        overflow: 'hidden',
+    },
+    image: {
+        width: '100%',
+    },
+});
