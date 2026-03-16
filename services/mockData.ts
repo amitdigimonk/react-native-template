@@ -5,19 +5,29 @@ export const CATEGORIES: Category[] = [
     id: '1', 
     title: 'Abstract Elements', 
     image: require('../assets/images/categories/category-1.jpg'), 
-    count: '120+' 
+    count: '120+',
+    type: 'image'
   },
   { 
     id: '2', 
     title: 'Minimal Nature', 
     image: require('../assets/images/categories/category-2.jpg'), 
-    count: '85+' 
+    count: '85+',
+    type: 'image'
   },
   { 
     id: '3', 
     title: 'Urban Geometry', 
     image: require('../assets/images/categories/category-3.jpg'), 
-    count: '98+' 
+    count: '98+',
+    type: 'image'
+  },
+  { 
+    id: '4', 
+    title: 'Animated', 
+    image: require('../assets/gif/Animated_Category_comppressed.mp4'), 
+    count: '15+',
+    type: 'video'
   },
 ];
 

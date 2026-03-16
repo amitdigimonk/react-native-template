@@ -7,6 +7,8 @@ import React, { useState, useMemo, useCallback } from 'react';
 import { ScrollView, StyleSheet, TouchableOpacity, View, Modal, FlatList } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { CATEGORIES } from '@/services/mockData';
+import { ActivityIndicator } from 'react-native';
 
 export default function SettingsScreen() {
     const router = useRouter();
@@ -14,14 +16,21 @@ export default function SettingsScreen() {
     
     console.log('Current i18n language:', i18nInstance?.language);
     const { 
-        colors, 
+        colors,
         themeMode, 
         setThemeMode, 
         notificationsEnabled, 
-        setNotificationsEnabled 
+        setNotificationsEnabled,
+        lockScreenCategories,
+        toggleLockScreenCategory,
+        eventsEnabled,
+        setEventsEnabled
     } = useTheme();
 
     const [languageModalVisible, setLanguageModalVisible] = useState(false);
+    const [featureModalVisible, setFeatureModalVisible] = useState(false);
+    const [isDownloading, setIsDownloading] = useState(false);
+    const [downloadComplete, setDownloadComplete] = useState(false);
 
     const languages = useMemo(() => [
         { code: 'en', label: 'English' },
@@ -46,6 +55,18 @@ export default function SettingsScreen() {
         }
         setLanguageModalVisible(false);
     }, [i18nInstance]);
+
+    const handleDownload = async () => {
+        setIsDownloading(true);
+        // Simulation of downloading and caching
+        await new Promise(resolve => setTimeout(resolve, 3000));
+        setIsDownloading(false);
+        setDownloadComplete(true);
+        setTimeout(() => {
+            setDownloadComplete(false);
+            setFeatureModalVisible(false);
+        }, 2000);
+    };
 
     const SettingItem = ({
         icon,
@@ -80,8 +101,24 @@ export default function SettingsScreen() {
                 </TouchableOpacity>
                 <CustomText variant="heading" style={{ fontSize: 24 }}>{t('settings.title')}</CustomText>
             </View>
-
+ 
             <ScrollView contentContainerStyle={styles.scrollContent}>
+                <View style={styles.section}>
+                    <CustomText variant="caption" style={styles.sectionTitle}>{t('settings.features')}</CustomText>
+                    <SettingItem 
+                        icon="image-outline" 
+                        label={t('settings.lockScreenPack')} 
+                        value={lockScreenCategories.length > 0 ? `${lockScreenCategories.length}/5` : ''}
+                        onPress={() => setFeatureModalVisible(true)}
+                    />
+                    <SettingItem 
+                        icon={eventsEnabled ? "calendar" : "calendar-outline"} 
+                        label={t('settings.events')} 
+                        value={eventsEnabled ? t('settings.enabled') : t('settings.disabled')} 
+                        onPress={() => setEventsEnabled(!eventsEnabled)}
+                    />
+                </View>
+
                 <View style={styles.section}>
                     <CustomText variant="caption" style={styles.sectionTitle}>{t('settings.preferences')}</CustomText>
                     <SettingItem 
@@ -153,6 +190,75 @@ export default function SettingsScreen() {
                                 </TouchableOpacity>
                             )}
                         />
+                    </View>
+                </TouchableOpacity>
+            </Modal>
+
+            <Modal
+                visible={featureModalVisible}
+                transparent={true}
+                animationType="slide"
+                onRequestClose={() => setFeatureModalVisible(false)}
+            >
+                <TouchableOpacity 
+                    style={styles.modalOverlay} 
+                    activeOpacity={1} 
+                    onPress={() => !isDownloading && setFeatureModalVisible(false)}
+                >
+                    <View style={[styles.modalContent, { backgroundColor: colors.card }]}>
+                        <CustomText variant="heading" style={styles.modalTitle}>{t('settings.selectCategories')}</CustomText>
+                        <CustomText variant="caption" style={{ textAlign: 'center', marginBottom: 20 }}>
+                            {t('settings.maxSelection')}
+                        </CustomText>
+                        
+                        <FlatList
+                            data={CATEGORIES}
+                            keyExtractor={(item) => item.id}
+                            renderItem={({ item }) => {
+                                const isSelected = lockScreenCategories.includes(item.id);
+                                return (
+                                    <TouchableOpacity 
+                                        style={styles.languageOption} 
+                                        onPress={() => toggleLockScreenCategory(item.id)}
+                                        disabled={isDownloading}
+                                    >
+                                        <CustomText variant="body" style={{ color: isSelected ? colors.primary : colors.text }}>
+                                            {item.title}
+                                        </CustomText>
+                                        {isSelected && (
+                                            <Ionicons name="checkmark-circle" size={24} color={colors.primary} />
+                                        )}
+                                    </TouchableOpacity>
+                                );
+                            }}
+                        />
+
+                        <TouchableOpacity
+                            style={[
+                                styles.downloadButton, 
+                                { 
+                                    backgroundColor: colors.primary,
+                                    opacity: lockScreenCategories.length === 0 || isDownloading ? 0.6 : 1
+                                }
+                            ]}
+                            onPress={handleDownload}
+                            disabled={lockScreenCategories.length === 0 || isDownloading}
+                        >
+                            {isDownloading ? (
+                                <ActivityIndicator color="#FFF" />
+                            ) : downloadComplete ? (
+                                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                    <Ionicons name="checkmark" size={20} color="#FFF" style={{ marginRight: 8 }} />
+                                    <CustomText variant="body" color="#FFF" style={{ fontWeight: 'bold' }}>
+                                        {t('settings.cached')}
+                                    </CustomText>
+                                </View>
+                            ) : (
+                                <CustomText variant="body" color="#FFF" style={{ fontWeight: 'bold' }}>
+                                    {t('settings.downloadAndCache')}
+                                </CustomText>
+                            )}
+                        </TouchableOpacity>
                     </View>
                 </TouchableOpacity>
             </Modal>
@@ -231,5 +337,12 @@ const styles = StyleSheet.create({
         paddingVertical: 16,
         borderBottomWidth: StyleSheet.hairlineWidth,
         borderBottomColor: 'rgba(0,0,0,0.1)',
+    },
+    downloadButton: {
+        marginTop: 20,
+        height: 56,
+        borderRadius: 16,
+        justifyContent: 'center',
+        alignItems: 'center',
     }
 });

@@ -15,6 +15,13 @@
     "light": "Light",
     "dark": "Dark",
     "system": "System",
-    "selectLanguage": "Select Language"
+    "selectLanguage": "Select Language",
+    "features": "Features",
+    "lockScreenPack": "Lock Screen Pack",
+    "selectCategories": "Select Categories",
+    "downloadAndCache": "Download & Cache",
+    "maxSelection": "Max 5 categories",
+    "events": "Events",
+    "cached": "Cached"
   }
 }

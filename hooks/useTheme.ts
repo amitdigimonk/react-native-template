@@ -7,7 +7,11 @@ export const useTheme = () => {
         themeMode, 
         setThemeMode, 
         notificationsEnabled, 
-        setNotificationsEnabled 
+        setNotificationsEnabled,
+        lockScreenCategories,
+        toggleLockScreenCategory,
+        eventsEnabled,
+        setEventsEnabled,
     } = useSettingsContext();
 
     return {
@@ -17,5 +21,9 @@ export const useTheme = () => {
         setThemeMode,
         notificationsEnabled,
         setNotificationsEnabled,
+        lockScreenCategories,
+        toggleLockScreenCategory,
+        eventsEnabled,
+        setEventsEnabled,
     };
 };

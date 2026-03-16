@@ -9,6 +9,7 @@ export interface Category {
   title: string;
   image: any; // Using any for require() images, could be ImageSourcePropType from react-native
   count: string;
+  type?: 'image' | 'video';
 }
 
 export type ThemeVariant = 'light' | 'dark';

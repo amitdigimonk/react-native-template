@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Image } from 'expo-image';
+import { useVideoPlayer, VideoView } from 'expo-video';
 import CustomText from './CustomText';
 import { commonStyles } from '@/constants/commonStyles';
 import { Category } from '@/types';
@@ -10,19 +11,42 @@ interface CategoryCardProps {
   onPress: (category: Category) => void;
 }
 
+const CategoryVideo = ({ source }: { source: string }) => {
+  const player = useVideoPlayer(source, (player) => {
+    player.loop = true;
+    player.play();
+    player.muted = true;
+  });
+
+  return (
+    <VideoView
+      player={player}
+      style={styles.cardImage}
+      contentFit="cover"
+      nativeControls={false}
+    />
+  );
+};
+
 const CategoryCard: React.FC<CategoryCardProps> = React.memo(({ category, onPress }) => {
+  const isVideo = category.type === 'video';
+
   return (
     <TouchableOpacity
       activeOpacity={0.9}
       style={[styles.categoryCard, commonStyles.cardShadow]}
       onPress={() => onPress(category)}
     >
-      <Image
-        source={category.image}
-        style={styles.cardImage}
-        contentFit="cover"
-        transition={300}
-      />
+      {isVideo ? (
+        <CategoryVideo source={category.image} />
+      ) : (
+        <Image
+          source={category.image}
+          style={styles.cardImage}
+          contentFit="cover"
+          transition={300}
+        />
+      )}
       <View style={styles.overlay} />
       <View style={styles.cardContent}>
         <CustomText variant="body" color="#FFFFFF">{category.count}</CustomText>
