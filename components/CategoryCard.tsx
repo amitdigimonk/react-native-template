@@ -4,6 +4,8 @@ import { Image } from 'expo-image';
 import { useVideoPlayer, VideoView } from 'expo-video';
 import CustomText from './CustomText';
 import { commonStyles } from '@/constants/commonStyles';
+import { useTranslation } from 'react-i18next';
+import { useTheme } from '@/hooks/useTheme';
 import { Category } from '@/types';
 
 interface CategoryCardProps {
@@ -29,6 +31,8 @@ const CategoryVideo = ({ source }: { source: string }) => {
 };
 
 const CategoryCard: React.FC<CategoryCardProps> = React.memo(({ category, onPress }) => {
+  const { colors } = useTheme();
+  const { t } = useTranslation();
   const isVideo = category.type === 'video';
 
   return (
@@ -50,7 +54,7 @@ const CategoryCard: React.FC<CategoryCardProps> = React.memo(({ category, onPres
       <View style={styles.overlay} />
       <View style={styles.cardContent}>
         <CustomText variant="body" color="#FFFFFF">{category.count}</CustomText>
-        <CustomText variant="subheading" color="#FFFFFF">{category.title}</CustomText>
+        <CustomText variant="subheading" color="#FFFFFF">{t(`categories.${category.title}`)}</CustomText>
       </View>
     </TouchableOpacity>
   );

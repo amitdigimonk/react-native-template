@@ -1,0 +1,16 @@
+{
+  "platforms": [
+    "apple",
+    "android"
+  ],
+  "apple": {
+    "modules": [
+      "WallpaperEngineModule"
+    ]
+  },
+  "android": {
+    "modules": [
+      "com.tossstudio.wallpaperengine.WallpaperEngineModule"
+    ]
+  }
+}

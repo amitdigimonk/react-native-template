@@ -7,6 +7,7 @@ import { View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SettingsProvider } from '@/context/SettingsContext';
 import { useTheme } from '@/hooks/useTheme';
+import { StatusBar } from 'expo-status-bar';
 import '@/services/i18n';
 
 SplashScreen.preventAutoHideAsync();
@@ -16,6 +17,7 @@ function LayoutContent() {
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.background }}>
+      <StatusBar style={isDark ? 'light' : 'dark'} />
       <NavigationThemeProvider value={isDark ? DarkTheme : DefaultTheme}>
         <Stack
           screenOptions={{

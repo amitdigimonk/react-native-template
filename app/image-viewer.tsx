@@ -8,11 +8,13 @@ import * as Haptics from 'expo-haptics';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import { ActivityIndicator, Alert, StyleSheet, TouchableOpacity, View, Platform } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import CustomText from '@/components/CustomText';
 
 export default function ImageViewerScreen() {
     const { url } = useLocalSearchParams();
     const router = useRouter();
+    const { t } = useTranslation();
     const { colors } = useTheme();
     const [isApplying, setIsApplying] = useState(false);
     const [isSheetVisible, setIsSheetVisible] = useState(false);
@@ -26,10 +28,10 @@ export default function ImageViewerScreen() {
 
         if (success) {
             Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-            Alert.alert('Success', `Wallpaper applied to ${location.toLowerCase()} screen(s)!`);
+            Alert.alert(t('imageViewer.success'), t('imageViewer.appliedTo', { location: location.toLowerCase() }));
         } else {
             Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
-            Alert.alert('Error', 'Failed to apply wallpaper. Please try again.');
+            Alert.alert(t('imageViewer.error'), t('imageViewer.failed'));
         }
     };
 
@@ -67,7 +69,7 @@ export default function ImageViewerScreen() {
                         <ActivityIndicator color="#FFFFFF" />
                     ) : (
                         <CustomText variant="body" color="#FFFFFF" style={{ fontWeight: 'bold' }}>
-                            Apply Wallpaper
+                            {t('imageViewer.applyButton')}
                         </CustomText>
                     )}
                 </TouchableOpacity>

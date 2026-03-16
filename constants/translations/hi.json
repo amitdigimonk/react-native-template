@@ -15,6 +15,51 @@
     "light": "हल्का",
     "dark": "गहरा",
     "system": "सिस्टम",
-    "selectLanguage": "भाषा चुनें"
+    "selectLanguage": "भाषा चुनें",
+    "features": "विशेषताएं",
+    "lockScreenPack": "लॉक स्क्रीन पैक",
+    "selectCategories": "श्रेणियां चुनें",
+    "downloadAndCache": "डाउनलोड और कैश",
+    "maxSelection": "अधिकतम 5 श्रेणियां",
+    "events": "आयोजन",
+    "cached": "कैश्ड"
+  },
+  "home": {
+    "caption": "वाइब वॉल्स",
+    "heading": "आपका दैनिक वाइब",
+    "subtext": "हजारों प्रीमियम हाई-डेफिनिशन वॉलपेपर देखें, जो रोज़ाना अपडेट होते हैं।",
+    "browseButton": "सभी वॉलपेपर देखें"
+  },
+  "preview": {
+    "discover": "वाइब्स खोजें",
+    "filters": {
+      "All": "सभी",
+      "Minimal": "न्यूनतम",
+      "Abstract": "अमूर्त",
+      "Nature": "प्रकृति",
+      "Urban": "शहरी",
+      "Dark": "गहरा"
+    }
+  },
+  "imageViewer": {
+    "applyButton": "वॉलपेपर लगाएं",
+    "success": "सफलता",
+    "appliedTo": "वॉलपेपर {{location}} स्क्रीन पर लगाया गया!",
+    "error": "त्रुटि",
+    "failed": "वॉलपेपर लगाने में विफल। कृपया पुन: प्रयास करें।"
+  },
+  "bottomSheet": {
+    "title": "वॉलपेपर लगाएं",
+    "subtitle": "चुनें कि आप इस वॉलपेपर को कहां लगाना चाहते हैं",
+    "home": "होम स्क्रीन",
+    "lock": "लॉक स्क्रीन",
+    "both": "दोनों स्क्रीन",
+    "cancel": "रद्द करें"
+  },
+  "categories": {
+    "Abstract Elements": "अमूर्त तत्व",
+    "Minimal Nature": "न्यूनतम प्रकृति",
+    "Urban Geometry": "शहरी ज्यामिति",
+    "Animated": "एनिमेटेड"
   }
 }

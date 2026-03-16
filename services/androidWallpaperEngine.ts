@@ -1,6 +1,7 @@
 import { Platform } from 'react-native';
+import * as WallpaperEngine from '../modules/wallpaper-engine/src';
 
-export type WallpaperLocation = 'HOME' | 'LOCK' | 'BOTH';
+export type WallpaperLocation = WallpaperEngine.WallpaperLocation;
 
 export const androidWallpaperEngine = {
   /**
@@ -14,18 +15,8 @@ export const androidWallpaperEngine = {
     try {
       console.log(`[AndroidWallpaperEngine] Setting wallpaper to: ${imageUrl} at location: ${location}`);
       
-      // Simulated processing delay
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      await WallpaperEngine.setWallpaper(imageUrl, location);
       
-      // Native Implementation Placeholder:
-      // if (location === 'HOME') {
-      //   await ManageWallpaper.setWallpaper({ uri: imageUrl }, TYPE_HOME);
-      // } else if (location === 'LOCK') {
-      //   await ManageWallpaper.setWallpaper({ uri: imageUrl }, TYPE_LOCK);
-      // } else {
-      //   await ManageWallpaper.setWallpaper({ uri: imageUrl }, TYPE_BOTH);
-      // }
-
       return true;
     } catch (error) {
       console.error('[AndroidWallpaperEngine] Failed to set wallpaper:', error);

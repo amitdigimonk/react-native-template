@@ -15,6 +15,51 @@
     "light": "Clair",
     "dark": "Sombre",
     "system": "Système",
-    "selectLanguage": "Choisir la langue"
+    "selectLanguage": "Choisir la langue",
+    "features": "Fonctionnalités",
+    "lockScreenPack": "Pack d'écran de verrouillage",
+    "selectCategories": "Sélectionner des catégories",
+    "downloadAndCache": "Télécharger et mettre en cache",
+    "maxSelection": "Max 5 catégories",
+    "events": "Événements",
+    "cached": "Mis en cache"
+  },
+  "home": {
+    "caption": "VIBE WALLS",
+    "heading": "Votre Ambiance Quotidienne",
+    "subtext": "Explorez des milliers de fonds d'écran haute définition premium, actualisés quotidiennement.",
+    "browseButton": "Parcourir tout"
+  },
+  "preview": {
+    "discover": "Découvrir les Vibes",
+    "filters": {
+      "All": "Tout",
+      "Minimal": "Minimal",
+      "Abstract": "Abstrait",
+      "Nature": "Nature",
+      "Urban": "Urbain",
+      "Dark": "Sombre"
+    }
+  },
+  "imageViewer": {
+    "applyButton": "Appliquer le fond d'écran",
+    "success": "Succès",
+    "appliedTo": "Fond d'écran appliqué sur l'écran {{location}} !",
+    "error": "Erreur",
+    "failed": "Échec de l'application du fond d'écran. Veuillez réessayer."
+  },
+  "bottomSheet": {
+    "title": "Appliquer le fond d'écran",
+    "subtitle": "Choisissez où vous souhaitez appliquer ce fond d'écran",
+    "home": "Écran d'accueil",
+    "lock": "Écran de verrouillage",
+    "both": "Les deux écrans",
+    "cancel": "Annuler"
+  },
+  "categories": {
+    "Abstract Elements": "Éléments abstraits",
+    "Minimal Nature": "Nature minimale",
+    "Urban Geometry": "Géométrie urbaine",
+    "Animated": "Animé"
   }
 }

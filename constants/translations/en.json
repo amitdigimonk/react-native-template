@@ -23,5 +23,43 @@
     "maxSelection": "Max 5 categories",
     "events": "Events",
     "cached": "Cached"
+  },
+  "home": {
+    "caption": "VIBE WALLS",
+    "heading": "Your Daily Vibe",
+    "subtext": "Explore thousands of premium high-definition wallpapers, refreshed daily.",
+    "browseButton": "Browse All Walls"
+  },
+  "preview": {
+    "discover": "Discover Vibes",
+    "filters": {
+      "All": "All",
+      "Minimal": "Minimal",
+      "Abstract": "Abstract",
+      "Nature": "Nature",
+      "Urban": "Urban",
+      "Dark": "Dark"
+    }
+  },
+  "imageViewer": {
+    "applyButton": "Apply Wallpaper",
+    "success": "Success",
+    "appliedTo": "Wallpaper applied to {{location}} screen(s)!",
+    "error": "Error",
+    "failed": "Failed to apply wallpaper. Please try again."
+  },
+  "bottomSheet": {
+    "title": "Apply Wallpaper",
+    "subtitle": "Choose where you want to apply this wallpaper",
+    "home": "Home Screen",
+    "lock": "Lock Screen",
+    "both": "Both Screens",
+    "cancel": "Cancel"
+  },
+  "categories": {
+    "Abstract Elements": "Abstract Elements",
+    "Minimal Nature": "Minimal Nature",
+    "Urban Geometry": "Urban Geometry",
+    "Animated": "Animated"
   }
 }

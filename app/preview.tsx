@@ -7,6 +7,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { FlashList } from "@shopify/flash-list";
 import { Image } from 'expo-image';
 import { useLocalSearchParams, useRouter } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 
 import { useState } from 'react';
 import { ActivityIndicator, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
@@ -15,6 +16,7 @@ const FILTERS = ['All', 'Minimal', 'Abstract', 'Nature', 'Urban', 'Dark'];
 
 export default function PreviewScreen() {
     const router = useRouter();
+    const { t } = useTranslation();
     const { category } = useLocalSearchParams();
 
     const initialCategory = (category as string) || 'All';
@@ -54,7 +56,7 @@ export default function PreviewScreen() {
                     <Ionicons name="chevron-back" size={24} color={colors.text} />
                 </TouchableOpacity>
                 <CustomText variant="heading" style={{ fontSize: 24, letterSpacing: -0.5 }}>
-                    {isBrowseAll ? 'Discover Vibes' : initialCategory}
+                    {isBrowseAll ? t('preview.discover') : t(`categories.${category}`)}
                 </CustomText>
 
             </View>
@@ -83,7 +85,7 @@ export default function PreviewScreen() {
                                         color={isActive ? colors.background : colors.textMuted}
                                         style={{ fontWeight: isActive ? 'bold' : 'normal' }}
                                     >
-                                        {filter}
+                                        {t(`preview.filters.${filter}`)}
                                     </CustomText>
                                 </TouchableOpacity>
                             );

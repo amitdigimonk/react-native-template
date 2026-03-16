@@ -8,10 +8,12 @@ import { Category } from '@/types';
 import { useRouter } from 'expo-router';
 import { ScrollView, StyleSheet, View, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { useTranslation } from 'react-i18next';
 
 export default function HomeScreen() {
   const router = useRouter();
   const { colors } = useTheme();
+  const { t } = useTranslation();
 
   const handleCategoryPress = (category: Category) => {
     router.push({ pathname: '/preview', params: { category: category.title } });
@@ -25,8 +27,8 @@ export default function HomeScreen() {
     >
       <View style={styles.header}>
         <View style={styles.headerTitleContainer}>
-          <CustomText variant="caption">VIBE WALLS</CustomText>
-          <CustomText variant="heading">Your Daily Vibe</CustomText>
+          <CustomText variant="caption">{t('home.caption')}</CustomText>
+          <CustomText variant="heading">{t('home.heading')}</CustomText>
         </View>
         <TouchableOpacity 
           style={[styles.settingsButton, { backgroundColor: colors.card }]} 
@@ -50,10 +52,10 @@ export default function HomeScreen() {
       {/* 3. Bold Primary Action */}
       <View style={styles.actionContainer}>
         <CustomText variant="body" style={{ color: colors.textMuted, textAlign: 'center' }}>
-          Explore thousands of premium high-definition wallpapers, refreshed daily.
+          {t('home.subtext')}
         </CustomText>
         <CustomButton
-          title="Browse All Walls"
+          title={t('home.browseButton')}
           onPress={() => router.push({ pathname: '/preview', params: { category: 'All' } })}
         />
       </View>

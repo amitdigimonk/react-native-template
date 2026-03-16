@@ -15,6 +15,51 @@
     "light": "ライト",
     "dark": "ダーク",
     "system": "システムデフォルト",
-    "selectLanguage": "言語を選択"
+    "selectLanguage": "言語を選択",
+    "features": "機能",
+    "lockScreenPack": "ロック画面パック",
+    "selectCategories": "カテゴリを選択",
+    "downloadAndCache": "ダウンロードとキャッシュ",
+    "maxSelection": "最大5カテゴリ",
+    "events": "イベント",
+    "cached": "キャッシュ済み"
+  },
+  "home": {
+    "caption": "バイブウォール",
+    "heading": "今日のバイブ",
+    "subtext": "毎日更新される、数千のプレミアム高画質壁紙を探索しましょう。",
+    "browseButton": "すべての壁紙を見る"
+  },
+  "preview": {
+    "discover": "バイブを探索",
+    "filters": {
+      "All": "すべて",
+      "Minimal": "ミニマリスティック",
+      "Abstract": "アブストラクト",
+      "Nature": "ネイチャー",
+      "Urban": "アーバン",
+      "Dark": "ダーク"
+    }
+  },
+  "imageViewer": {
+    "applyButton": "壁紙を適用",
+    "success": "成功",
+    "appliedTo": "壁紙を {{location}} 画面に適用しました！",
+    "error": "エラー",
+    "failed": "壁紙の適用に失敗しました。もう一度お試しください。"
+  },
+  "bottomSheet": {
+    "title": "壁紙を適用",
+    "subtitle": "壁紙を適用する場所を選択してください",
+    "home": "ホーム画面",
+    "lock": "ロック画面",
+    "both": "両方の画面",
+    "cancel": "キャンセル"
+  },
+  "categories": {
+    "Abstract Elements": "抽象要素",
+    "Minimal Nature": "ミニマル・ネイチャー",
+    "Urban Geometry": "都市の幾何学",
+    "Animated": "アニメーション"
   }
 }

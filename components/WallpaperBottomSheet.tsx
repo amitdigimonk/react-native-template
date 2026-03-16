@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Dimensions, Modal, StyleSheet, TouchableOpacity, View, Pressable } from 'react-native';
+import { Dimensions, Modal, StyleSheet, TouchableOpacity, View, Pressable, ScrollView } from 'react-native';
 import Animated, {
     useAnimatedStyle,
     useSharedValue,
@@ -8,6 +8,8 @@ import Animated, {
     runOnJS,
 } from 'react-native-reanimated';
 import { GestureDetector, Gesture } from 'react-native-gesture-handler';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useTranslation } from 'react-i18next';
 import { Ionicons } from '@expo/vector-icons';
 import CustomText from './CustomText';
 import { useTheme } from '@/hooks/useTheme';
@@ -19,15 +21,17 @@ interface WallpaperBottomSheetProps {
     onSelect: (location: WallpaperLocation) => void;
 }
 
-const { height: SCREEN_HEIGHT } = Dimensions.get('window');
-const SHEET_HEIGHT = 400;
+const SHEET_HEIGHT = 480;
 
 export default function WallpaperBottomSheet({ isVisible, onClose, onSelect }: WallpaperBottomSheetProps) {
     const { colors } = useTheme();
-    const translateY = useSharedValue(SCREEN_HEIGHT);
+    const { t } = useTranslation();
+    const insets = useSafeAreaInsets();
+    const TOTAL_HEIGHT = SHEET_HEIGHT + insets.bottom;
+    const translateY = useSharedValue(TOTAL_HEIGHT);
 
     const show = () => {
-        translateY.value = withSpring(SCREEN_HEIGHT - SHEET_HEIGHT, { 
+        translateY.value = withSpring(0, { 
             damping: 50, 
             stiffness: 100,
             mass: 0.5
@@ -35,7 +39,7 @@ export default function WallpaperBottomSheet({ isVisible, onClose, onSelect }: W
     };
 
     const hide = () => {
-        translateY.value = withTiming(SCREEN_HEIGHT, {}, () => {
+        translateY.value = withTiming(TOTAL_HEIGHT, {}, () => {
             runOnJS(onClose)();
         });
     };
@@ -51,14 +55,14 @@ export default function WallpaperBottomSheet({ isVisible, onClose, onSelect }: W
     const gesture = Gesture.Pan()
         .onUpdate((event) => {
             if (event.translationY > 0) {
-                translateY.value = SCREEN_HEIGHT - SHEET_HEIGHT + event.translationY;
+                translateY.value = event.translationY;
             }
         })
         .onEnd((event) => {
             if (event.translationY > 50 || event.velocityY > 500) {
                 runOnJS(hide)();
             } else {
-                translateY.value = withSpring(SCREEN_HEIGHT - SHEET_HEIGHT, { damping: 20 });
+                translateY.value = withSpring(0, { damping: 20 });
             }
         });
 
@@ -101,36 +105,46 @@ export default function WallpaperBottomSheet({ isVisible, onClose, onSelect }: W
                 <Animated.View style={[styles.backdropBackground, { backgroundColor: 'rgba(0,0,0,0.5)' }]} />
             </Pressable>
 
-            <GestureDetector gesture={gesture}>
-                <Animated.View
-                    style={[
-                        styles.sheet,
-                        { backgroundColor: colors.background, paddingBottom: 40 },
-                        animatedStyle
-                    ]}
-                >
-                    <View style={styles.dragHandleContainer}>
-                        <View style={[styles.dragHandle, { backgroundColor: colors.border }]} />
-                    </View>
-
-                    <View style={styles.content}>
-                        <CustomText variant="heading" style={styles.title}>Apply Wallpaper</CustomText>
-                        <CustomText variant="body" style={[styles.subtitle, { color: colors.textMuted }]}>
-                            Choose where you want to apply this wallpaper
-                        </CustomText>
-
-                        <View style={styles.optionsContainer}>
-                            <Option icon="home-outline" label="Home Screen" location="HOME" />
-                            <Option icon="lock-closed-outline" label="Lock Screen" location="LOCK" />
-                            <Option icon="phone-portrait-outline" label="Both Screens" location="BOTH" />
+            <View style={styles.container}>
+                <GestureDetector gesture={gesture}>
+                    <Animated.View
+                        style={[
+                            styles.sheet,
+                            { 
+                                backgroundColor: colors.background, 
+                                height: TOTAL_HEIGHT,
+                                paddingBottom: Math.max(insets.bottom, 20) 
+                            },
+                            animatedStyle
+                        ]}
+                    >
+                        <View style={styles.dragHandleContainer}>
+                            <View style={[styles.dragHandle, { backgroundColor: colors.border }]} />
                         </View>
 
-                        <TouchableOpacity style={styles.cancelButton} onPress={hide}>
-                            <CustomText variant="body" color="#EF4444" style={{ fontWeight: '600' }}>Cancel</CustomText>
-                        </TouchableOpacity>
-                    </View>
-                </Animated.View>
-            </GestureDetector>
+                        <ScrollView 
+                            bounces={false} 
+                            showsVerticalScrollIndicator={false}
+                            contentContainerStyle={styles.content}
+                        >
+                            <CustomText variant="heading" style={styles.title}>{t('bottomSheet.title')}</CustomText>
+                            <CustomText variant="body" style={[styles.subtitle, { color: colors.textMuted }]}>
+                                {t('bottomSheet.subtitle')}
+                            </CustomText>
+
+                            <View style={styles.optionsContainer}>
+                                <Option icon="home-outline" label={t('bottomSheet.home')} location="HOME" />
+                                <Option icon="lock-closed-outline" label={t('bottomSheet.lock')} location="LOCK" />
+                                <Option icon="phone-portrait-outline" label={t('bottomSheet.both')} location="BOTH" />
+                            </View>
+
+                            <TouchableOpacity style={styles.cancelButton} onPress={hide}>
+                                <CustomText variant="body" color="#EF4444" style={{ fontWeight: '600' }}>{t('bottomSheet.cancel')}</CustomText>
+                            </TouchableOpacity>
+                        </ScrollView>
+                    </Animated.View>
+                </GestureDetector>
+            </View>
         </Modal>
     );
 }
@@ -142,12 +156,15 @@ const styles = StyleSheet.create({
     backdropBackground: {
         ...StyleSheet.absoluteFillObject,
     },
+    container: {
+        flex: 1,
+        justifyContent: 'flex-end',
+    },
     sheet: {
         position: 'absolute',
-        top: 0,
+        bottom: 0,
         left: 0,
         right: 0,
-        height: SHEET_HEIGHT,
         borderTopLeftRadius: 40,
         borderTopRightRadius: 40,
         shadowColor: "#000",
