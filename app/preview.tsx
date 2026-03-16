@@ -5,7 +5,8 @@ import { useTheme } from '@/hooks/useTheme';
 import { Ionicons } from '@expo/vector-icons';
 import { FlashList } from "@shopify/flash-list";
 import { Image } from 'expo-image';
-import { useRouter } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
+
 import { useState } from 'react';
 import { ActivityIndicator, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 
@@ -13,9 +14,15 @@ const FILTERS = ['All', 'Minimal', 'Abstract', 'Nature', 'Urban', 'Dark'];
 
 export default function PreviewScreen() {
     const router = useRouter();
+    const { category } = useLocalSearchParams();
+
+    const initialCategory = (category as string) || 'All';
+    const isBrowseAll = initialCategory === 'All';
+
     const { data, isLoading, error } = useFetchImages();
     const { colors } = useTheme();
     const [activeFilter, setActiveFilter] = useState('All');
+
 
     const renderItem = ({ item, index }: { item: ImageData; index: number }) => {
         const staggeredHeight = index % 2 === 0 ? 220 : 300;
@@ -45,39 +52,43 @@ export default function PreviewScreen() {
                 <TouchableOpacity style={styles.backBtn} onPress={() => router.back()}>
                     <Ionicons name="chevron-back" size={24} color={colors.text} />
                 </TouchableOpacity>
-                <CustomText variant="heading" style={{ fontSize: 22 }}>Explore</CustomText>
+                <CustomText variant="heading" style={{ fontSize: 22 }}>
+                    {isBrowseAll ? 'Explore' : initialCategory}
+                </CustomText>
             </View>
 
 
-            <View style={{ height: 60 }}>
-                <ScrollView
-                    horizontal
-                    showsHorizontalScrollIndicator={false}
-                    contentContainerStyle={styles.filterScroll}
-                >
-                    {FILTERS.map((filter) => {
-                        const isActive = activeFilter === filter;
-                        return (
-                            <TouchableOpacity
-                                key={filter}
-                                style={[
-                                    styles.filterPill,
-                                    { backgroundColor: isActive ? colors.text : 'transparent' }
-                                ]}
-                                onPress={() => setActiveFilter(filter)}
-                            >
-                                <CustomText
-                                    variant="body"
-                                    color={isActive ? colors.background : colors.textMuted}
-                                    style={{ fontWeight: isActive ? 'bold' : 'normal' }}
+            {isBrowseAll && (
+                <View style={{ height: 60 }}>
+                    <ScrollView
+                        horizontal
+                        showsHorizontalScrollIndicator={false}
+                        contentContainerStyle={styles.filterScroll}
+                    >
+                        {FILTERS.map((filter) => {
+                            const isActive = activeFilter === filter;
+                            return (
+                                <TouchableOpacity
+                                    key={filter}
+                                    style={[
+                                        styles.filterPill,
+                                        { backgroundColor: isActive ? colors.text : 'transparent' }
+                                    ]}
+                                    onPress={() => setActiveFilter(filter)}
                                 >
-                                    {filter}
-                                </CustomText>
-                            </TouchableOpacity>
-                        );
-                    })}
-                </ScrollView>
-            </View>
+                                    <CustomText
+                                        variant="body"
+                                        color={isActive ? colors.background : colors.textMuted}
+                                        style={{ fontWeight: isActive ? 'bold' : 'normal' }}
+                                    >
+                                        {filter}
+                                    </CustomText>
+                                </TouchableOpacity>
+                            );
+                        })}
+                    </ScrollView>
+                </View>
+            )}
 
             {isLoading ? (
                 <View style={[commonStyles.screenContainer, commonStyles.centerAlign]}>

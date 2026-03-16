@@ -36,7 +36,8 @@ export default function HomeScreen() {
             key={item.id}
             activeOpacity={0.9}
             style={[styles.categoryCard, commonStyles.cardShadow]}
-            onPress={() => router.push('/preview')} // Navigate to preview for now
+            // Update this line to pass the category title:
+            onPress={() => router.push({ pathname: '/preview', params: { category: item.title } })}
           >
             {/* The Image is the background */}
             <Image
@@ -64,7 +65,8 @@ export default function HomeScreen() {
         </CustomText>
         <CustomButton
           title="Browse All Walls"
-          onPress={() => router.push('/preview')}
+          // Update this line to pass 'All':
+          onPress={() => router.push({ pathname: '/preview', params: { category: 'All' } })}
         />
       </View>
 
