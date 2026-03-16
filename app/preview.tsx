@@ -9,10 +9,37 @@ import { Image } from 'expo-image';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 
-import { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { ActivityIndicator, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 
 const FILTERS = ['All', 'Minimal', 'Abstract', 'Nature', 'Urban', 'Dark'];
+
+const ImageListItem = React.memo(({ item, index, colors, onPress }: { 
+    item: ImageData; 
+    index: number; 
+    colors: any;
+    onPress: (url: string) => void;
+}) => {
+    const staggeredHeight = index % 2 === 0 ? 220 : 300;
+
+    return (
+        <TouchableOpacity
+            activeOpacity={0.9}
+            onPress={() => onPress(item.url)}
+        >
+            <View style={[styles.imageCard, { backgroundColor: colors.card }]}>
+                <Image
+                    source={{ uri: item.url }}
+                    style={[styles.image, { height: staggeredHeight, backgroundColor: colors.border }]}
+                    contentFit="cover"
+                    transition={300}
+                    cachePolicy="disk"
+                    placeholder="L6PZf-ayfRyE00ayj[fQ~qj[fQj[" // Simple blurhash placeholder
+                />
+            </View>
+        </TouchableOpacity>
+    );
+});
 
 export default function PreviewScreen() {
     const router = useRouter();
@@ -26,27 +53,18 @@ export default function PreviewScreen() {
     const { colors } = useTheme();
     const [activeFilter, setActiveFilter] = useState('All');
 
+    const handleImagePress = useCallback((url: string) => {
+        router.push({ pathname: '/image-viewer', params: { url } });
+    }, [router]);
 
-    const renderItem = ({ item, index }: { item: ImageData; index: number }) => {
-        const staggeredHeight = index % 2 === 0 ? 220 : 300;
-
-        return (
-            <TouchableOpacity
-                activeOpacity={0.9}
-                onPress={() => router.push({ pathname: '/image-viewer', params: { url: item.url } })}
-            >
-                <View style={[styles.imageCard, { backgroundColor: colors.card }]}>
-                    <Image
-                        source={{ uri: item.url }}
-                        style={[styles.image, { height: staggeredHeight, backgroundColor: colors.border }]}
-                        contentFit="cover"
-                        transition={300}
-                        cachePolicy="disk"
-                    />
-                </View>
-            </TouchableOpacity>
-        );
-    };
+    const renderItem = useCallback(({ item, index }: { item: ImageData; index: number }) => (
+        <ImageListItem 
+            item={item} 
+            index={index} 
+            colors={colors} 
+            onPress={handleImagePress} 
+        />
+    ), [colors, handleImagePress]);
 
     return (
         <View style={[commonStyles.screenContainer, { backgroundColor: colors.background }]}>
@@ -112,6 +130,10 @@ export default function PreviewScreen() {
                         renderItem={renderItem}
                         contentContainerStyle={styles.listContainer}
                         showsVerticalScrollIndicator={false}
+                        estimatedItemSize={260}
+                        overrideItemLayout={(layout, item, index) => {
+                            layout.size = index % 2 === 0 ? 220 : 300;
+                        }}
                     />
                 </View>
             )}
