@@ -1,7 +1,8 @@
 import CustomText from '@/components/CustomText';
 import { commonStyles } from '@/constants/commonStyles';
-import { ImageData, useFetchImages } from '@/hooks/useFetchImages';
+import { useFetchImages } from '@/hooks/useFetchImages';
 import { useTheme } from '@/hooks/useTheme';
+import { ImageData } from '@/types';
 import { Ionicons } from '@expo/vector-icons';
 import { FlashList } from "@shopify/flash-list";
 import { Image } from 'expo-image';
@@ -52,9 +53,10 @@ export default function PreviewScreen() {
                 <TouchableOpacity style={styles.backBtn} onPress={() => router.back()}>
                     <Ionicons name="chevron-back" size={24} color={colors.text} />
                 </TouchableOpacity>
-                <CustomText variant="heading" style={{ fontSize: 22 }}>
-                    {isBrowseAll ? 'Explore' : initialCategory}
+                <CustomText variant="heading" style={{ fontSize: 24, letterSpacing: -0.5 }}>
+                    {isBrowseAll ? 'Discover Vibes' : initialCategory}
                 </CustomText>
+
             </View>
 
 

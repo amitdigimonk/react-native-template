@@ -1,21 +1,21 @@
 import CustomButton from '@/components/CustomButton';
 import CustomText from '@/components/CustomText';
+import CategoryCard from '@/components/CategoryCard';
 import { commonStyles } from '@/constants/commonStyles';
 import { useTheme } from '@/hooks/useTheme';
-import { Image } from 'expo-image'; // High performance images
+import { CATEGORIES } from '@/services/mockData';
+import { Category } from '@/types';
 import { useRouter } from 'expo-router';
-import { ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
-
-// Simulated category data (In real app, fetch from backend)
-const CATEGORIES = [
-  { id: '1', title: 'Abstract Elements', image: require('../assets/images/categories/category-1.jpg'), count: '120+' },
-  { id: '2', title: 'Minimal Nature', image: require('../assets/images/categories/category-2.jpg'), count: '85+' },
-  { id: '3', title: 'Urban Geometry', image: require('../assets/images/categories/category-3.jpg'), count: '98+' },
-];
+import { ScrollView, StyleSheet, View, TouchableOpacity } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 
 export default function HomeScreen() {
   const router = useRouter();
-  const { colors, isDark } = useTheme();
+  const { colors } = useTheme();
+
+  const handleCategoryPress = (category: Category) => {
+    router.push({ pathname: '/preview', params: { category: category.title } });
+  };
 
   return (
     <ScrollView
@@ -23,38 +23,27 @@ export default function HomeScreen() {
       contentContainerStyle={styles.scrollContent}
       showsVerticalScrollIndicator={false}
     >
-      {/* 1. Welcoming Header */}
       <View style={styles.header}>
-        <CustomText variant="caption">CURIOSITY GALLERY</CustomText>
-        <CustomText variant="heading">Curated Spaces</CustomText>
+        <View style={styles.headerTitleContainer}>
+          <CustomText variant="caption">VIBE WALLS</CustomText>
+          <CustomText variant="heading">Your Daily Vibe</CustomText>
+        </View>
+        <TouchableOpacity 
+          style={[styles.settingsButton, { backgroundColor: colors.card }]} 
+          onPress={() => router.push('/settings')}
+          activeOpacity={0.7}
+        >
+          <Ionicons name="settings-outline" size={24} color={colors.text} />
+        </TouchableOpacity>
       </View>
 
-      {/* 2. Stunning Category Grid */}
       <View style={styles.grid}>
-        {CATEGORIES.map((item, index) => (
-          <TouchableOpacity
-            key={item.id}
-            activeOpacity={0.9}
-            style={[styles.categoryCard, commonStyles.cardShadow]}
-            // Update this line to pass the category title:
-            onPress={() => router.push({ pathname: '/preview', params: { category: item.title } })}
-          >
-            {/* The Image is the background */}
-            <Image
-              source={item.image}
-              style={styles.cardImage}
-              contentFit="cover"
-              transition={300}
-            />
-            {/* Dark gradient overlay for text readability */}
-            <View style={styles.overlay} />
-
-            {/* Content positioned on top */}
-            <View style={styles.cardContent}>
-              <CustomText variant="body" color="#FFFFFF">{item.count}</CustomText>
-              <CustomText variant="subheading" color="#FFFFFF">{item.title}</CustomText>
-            </View>
-          </TouchableOpacity>
+        {CATEGORIES.map((item) => (
+          <CategoryCard 
+            key={item.id} 
+            category={item} 
+            onPress={handleCategoryPress} 
+          />
         ))}
       </View>
 
@@ -65,7 +54,6 @@ export default function HomeScreen() {
         </CustomText>
         <CustomButton
           title="Browse All Walls"
-          // Update this line to pass 'All':
           onPress={() => router.push({ pathname: '/preview', params: { category: 'All' } })}
         />
       </View>
@@ -80,37 +68,32 @@ const styles = StyleSheet.create({
   },
   header: {
     padding: 24,
-    paddingTop: 80, // Space below status bar
+    paddingTop: 80,
     marginBottom: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  headerTitleContainer: {
+    flex: 1,
+  },
+  settingsButton: {
+    width: 48,
+    height: 48,
+    borderRadius: 16,
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.05,
+    shadowRadius: 10,
+    elevation: 2,
   },
   grid: {
     paddingHorizontal: 20,
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
-  },
-  categoryCard: {
-    width: '48%', // Almost half the width (leaving room for gap)
-    height: 200,
-    borderRadius: 16,
-    overflow: 'hidden',
-    marginBottom: 16,
-    position: 'relative',
-  },
-  cardImage: {
-    ...StyleSheet.absoluteFillObject, // Fills the card
-  },
-  overlay: {
-    ...StyleSheet.absoluteFillObject,
-    // Soft gradient shadow from bottom
-    backgroundColor: 'rgba(0,0,0,0.35)',
-  },
-  cardContent: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    padding: 16,
-    width: '100%',
   },
   actionContainer: {
     paddingHorizontal: 24,

@@ -1,0 +1,20 @@
+{
+  "settings": {
+    "title": "Paramètres",
+    "preferences": "Préférences",
+    "themeMode": "Mode Thème",
+    "notifications": "Notifications",
+    "language": "Langue",
+    "about": "À propos",
+    "version": "Version",
+    "rateApp": "Évaluer l'application",
+    "contactSupport": "Contacter le support",
+    "madeWithVibe": "FAIT AVEC VIBE",
+    "enabled": "Activé",
+    "disabled": "Désactivé",
+    "light": "Clair",
+    "dark": "Sombre",
+    "system": "Système",
+    "selectLanguage": "Choisir la langue"
+  }
+}

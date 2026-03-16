@@ -1,0 +1,20 @@
+{
+  "settings": {
+    "title": "設定",
+    "preferences": "設定内容",
+    "themeMode": "テーマモード",
+    "notifications": "通知",
+    "language": "言語",
+    "about": "このアプリについて",
+    "version": "バージョン",
+    "rateApp": "アプリを評価する",
+    "contactSupport": "サポートに連絡する",
+    "madeWithVibe": "VIBEで作成",
+    "enabled": "有効",
+    "disabled": "無効",
+    "light": "ライト",
+    "dark": "ダーク",
+    "system": "システムデフォルト",
+    "selectLanguage": "言語を選択"
+  }
+}

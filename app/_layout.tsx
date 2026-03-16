@@ -1,18 +1,39 @@
-import { useTheme } from '@/hooks/useTheme';
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
+import { DarkTheme, DefaultTheme, ThemeProvider as NavigationThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import { View } from 'react-native';
-
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { SettingsProvider } from '@/context/SettingsContext';
+import { useTheme } from '@/hooks/useTheme';
+import '@/services/i18n';
 
 SplashScreen.preventAutoHideAsync();
 
-export default function RootLayout() {
-
+function LayoutContent() {
   const { isDark, colors } = useTheme();
 
+  return (
+    <View style={{ flex: 1, backgroundColor: colors.background }}>
+      <NavigationThemeProvider value={isDark ? DarkTheme : DefaultTheme}>
+        <Stack
+          screenOptions={{
+            headerShown: false,
+            contentStyle: { backgroundColor: colors.background },
+            animation: 'slide_from_right',
+          }}
+        >
+          <Stack.Screen name="index" />
+          <Stack.Screen name="preview" />
+          <Stack.Screen name="settings" />
+        </Stack>
+      </NavigationThemeProvider>
+    </View>
+  );
+}
+
+export default function RootLayout() {
   const [fontsLoaded, fontError] = useFonts({
     'NeoSans': require('../assets/fonts/Neo Sans Std Regular.otf'),
   });
@@ -28,20 +49,10 @@ export default function RootLayout() {
   }
 
   return (
-    <View style={{ flex: 1, backgroundColor: colors.background }}>
-
-      <ThemeProvider value={isDark ? DarkTheme : DefaultTheme}>
-        <Stack
-          screenOptions={{
-            headerShown: false,
-            contentStyle: { backgroundColor: colors.background },
-            animation: 'slide_from_right',
-          }}
-        >
-          <Stack.Screen name="index" />
-          <Stack.Screen name="preview" />
-        </Stack>
-      </ThemeProvider>
-    </View>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <SettingsProvider>
+        <LayoutContent />
+      </SettingsProvider>
+    </GestureHandlerRootView>
   );
 }

@@ -36,21 +36,25 @@ const styles = StyleSheet.create({
         fontFamily: 'NeoSans',
     },
     heading: {
-        fontSize: 28,
-        fontWeight: 'bold',
-        letterSpacing: -0.5,
+        fontSize: 32,
+        fontWeight: '800',
+        letterSpacing: -1,
     },
     subheading: {
-        fontSize: 18,
-        fontWeight: '600',
+        fontSize: 20,
+        fontWeight: '700',
+        letterSpacing: -0.5,
     },
     body: {
         fontSize: 16,
         lineHeight: 24,
+        fontWeight: '400',
     },
     caption: {
-        fontSize: 12,
-        letterSpacing: 0.5,
+        fontSize: 13,
+        letterSpacing: 2,
+        fontWeight: '700',
         textTransform: 'uppercase',
+        opacity: 0.6,
     },
 });

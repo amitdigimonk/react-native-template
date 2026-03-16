@@ -1,34 +1,33 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 
 export const commonStyles = StyleSheet.create({
-
-    // Fills the whole screen, great for main screen wrappers
     screenContainer: {
         flex: 1,
     },
-    // Perfect for perfectly centering items
     centerAlign: {
         justifyContent: 'center',
         alignItems: 'center',
     },
-    // Quick horizontal layouts (like headers or lists of buttons)
     row: {
         flexDirection: 'row',
         alignItems: 'center',
     },
-    // Reusable drop shadow for cards or images
     cardShadow: {
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.1,
-        shadowRadius: 4,
-        elevation: 3, // Required for Android shadows
+        ...Platform.select({
+            ios: {
+                shadowColor: '#000',
+                shadowOffset: { width: 0, height: 10 },
+                shadowOpacity: 0.1,
+                shadowRadius: 20,
+            },
+            android: {
+                elevation: 10,
+            },
+        }),
     },
-
-    title: {
-        fontFamily: 'NeoSans', // Just call it by name!
-        fontSize: 24,
-        color: '#111827',
+    glass: {
+        backgroundColor: 'rgba(255, 255, 255, 0.1)',
+        borderWidth: 1,
+        borderColor: 'rgba(255, 255, 255, 0.2)',
     },
-
 });

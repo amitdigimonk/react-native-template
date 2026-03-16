@@ -1,11 +1,21 @@
-import { Colors } from '@/constants/Colors';
-import { useColorScheme } from 'react-native';
+import { useSettingsContext } from '@/context/SettingsContext';
 
 export const useTheme = () => {
-    const theme = useColorScheme() ?? 'light';
+    const { 
+        isDark, 
+        colors, 
+        themeMode, 
+        setThemeMode, 
+        notificationsEnabled, 
+        setNotificationsEnabled 
+    } = useSettingsContext();
 
     return {
-        isDark: theme === 'dark',
-        colors: Colors[theme],
+        isDark,
+        colors,
+        themeMode,
+        setThemeMode,
+        notificationsEnabled,
+        setNotificationsEnabled,
     };
 };

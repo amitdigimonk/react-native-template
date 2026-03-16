@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "react-native-template",
-    "slug": "react-native-template",
+    "name": "Vibe Walls",
+    "slug": "vibe-walls",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -19,7 +19,8 @@
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.tossstudio"
     },
     "web": {
       "output": "static",
@@ -44,6 +45,12 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "43154e39-efa8-4e26-9077-7aea06aeaf3b"
+      }
     }
   }
 }
