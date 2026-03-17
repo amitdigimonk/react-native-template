@@ -7,6 +7,7 @@ import { View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SettingsProvider } from '@/context/SettingsContext';
 import { useTheme } from '@/hooks/useTheme';
+import { useUserSync } from '@/hooks/useUserSync';
 import { StatusBar } from 'expo-status-bar';
 import '@/services/i18n';
 
@@ -14,6 +15,7 @@ SplashScreen.preventAutoHideAsync();
 
 function LayoutContent() {
   const { isDark, colors } = useTheme();
+  useUserSync();
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.background }}>

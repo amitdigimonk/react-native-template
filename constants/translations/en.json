@@ -46,7 +46,11 @@
     "success": "Success",
     "appliedTo": "Wallpaper applied to {{location}} screen(s)!",
     "error": "Error",
-    "failed": "Failed to apply wallpaper. Please try again."
+    "failed": "Failed to apply wallpaper. Please try again.",
+    "metaAuthor": "Designed By",
+    "metaCategory": "Category",
+    "metaDimensions": "Dimensions",
+    "metaType": "Type"
   },
   "bottomSheet": {
     "title": "Apply Wallpaper",

@@ -45,7 +45,7 @@ const CategoryCard: React.FC<CategoryCardProps> = React.memo(({ category, onPres
         <CategoryVideo source={category.image} />
       ) : (
         <Image
-          source={category.image}
+          source={category.image || 'https://via.placeholder.com/300'}
           style={styles.cardImage}
           contentFit="cover"
           transition={300}
@@ -54,7 +54,9 @@ const CategoryCard: React.FC<CategoryCardProps> = React.memo(({ category, onPres
       <View style={styles.overlay} />
       <View style={styles.cardContent}>
         <CustomText variant="body" color="#FFFFFF">{category.count}</CustomText>
-        <CustomText variant="subheading" color="#FFFFFF">{t(`categories.${category.title}`)}</CustomText>
+        <CustomText variant="subheading" color="#FFFFFF">
+          {category.name || t(`categories.${category.title}`)}
+        </CustomText>
       </View>
     </TouchableOpacity>
   );

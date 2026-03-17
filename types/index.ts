@@ -6,10 +6,11 @@ export interface ImageData {
 
 export interface Category {
   id: string;
-  title: string;
-  image: any; // Using any for require() images, could be ImageSourcePropType from react-native
+  title?: string; // Legacy field for mock data
+  name?: string;  // Field from backend
+  image: any; // Can be require() or string URL
   count: string;
-  type?: 'image' | 'video';
+  type?: 'image' | 'video' | 'main' | 'sub';
 }
 
 export type ThemeVariant = 'light' | 'dark';
